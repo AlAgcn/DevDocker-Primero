@@ -1,4 +1,4 @@
-image: docker:stable
+image: docker:stable-git
 
 services:
   - docker:dind
@@ -10,7 +10,7 @@ variables:
   DOCKER_HOST: tcp://docker:2375
   DOCKER_DRIVER: overlay2
   BASEIMAGE: gitlab.com/thekesolutions/Dspace/$REF_BRANCH
-  CONTAINER_TEST_IMAGE: $BASEIMAGE:$CI_COMMIT_REF_SLUG
+  CONTAINER_TEST_IMAGE: $BASEIMAGE:$REF_COMMIT
   CONTAINER_RELEASE_IMAGE: $BASEIMAGE:latest
 
 before_script:
