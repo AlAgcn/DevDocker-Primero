@@ -20,7 +20,7 @@ build:
   stage: build
   script:
     - git clone -b $REF_BRANCH --single-branch https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/thekesolutions/Dspace.git dspace-src
-    - docker build --pull -t Dockerfile.prod .
+    - docker build --pull -f Dockerfile.prod .
     - docker push $CONTAINER_TEST_IMAGE
     - docker push $CONTAINER_RELEASE_IMAGE
   only:
