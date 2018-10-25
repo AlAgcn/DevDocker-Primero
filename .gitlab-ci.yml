@@ -1,0 +1,28 @@
+image: docker:stable
+
+services:
+  - docker:dind
+
+stages:
+  - build
+
+variables:
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_DRIVER: overlay2
+  BASEIMAGE: gitlab.com/thekesolutions/Dspace/$REF_BRANCH
+  CONTAINER_TEST_IMAGE: $BASEIMAGE:$CI_COMMIT_REF_SLUG
+  CONTAINER_RELEASE_IMAGE: $BASEIMAGE:latest
+
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN gitlab.com
+
+build:
+  stage: build
+  script:
+    - git clone -b $REF_BRANCH --single-branch https://gitlab.com/thekesolutions/Dspace.git dspace-src
+    - docker build --pull -t Dockerfile.prod .
+    - docker push $CONTAINER_TEST_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE
+  only:
+    variables:
+      - $REF_BRANCH
