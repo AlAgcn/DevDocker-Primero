@@ -10,8 +10,6 @@ variables:
   DOCKER_HOST: tcp://docker:2375
   DOCKER_DRIVER: overlay2
   BASEIMAGE: registry.gitlab.com/thekesolutions/dspace
-  CONTAINER_TEST_IMAGE: $BASEIMAGE:$REF_COMMIT
-  CONTAINER_RELEASE_IMAGE: $BASEIMAGE:latest
 
 before_script:
   - docker login -u gitlab-ci-token -u $PAUSER -p $PATOKEN registry.gitlab.com
@@ -21,8 +19,9 @@ build:
   script:
     - git clone -b $REF_BRANCH --single-branch https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/thekesolutions/Dspace.git dspace-src
     - mkdir m2-repo
-    - docker build --pull -t $BASEIMAGE/$REF_BRANCH:$REF_COMMIT -t $BASEIMAGE/$REF_BRANCH:latest -f Dockerfile.prod .
-    - docker push $BASEIMAGE/$REF_BRANCH:$REF_COMMIT
+    - docker build --pull -t $BASEIMAGE/$REF_BRANCH:$REF_SHA -t $BASEIMAGE/$REF_BRANCH:$REF_TAG -t $BASEIMAGE/$REF_BRANCH:latest -f Dockerfile.prod .
+    - docker push $BASEIMAGE/$REF_BRANCH:$REF_SHA
+    - docker push $BASEIMAGE/$REF_BRANCH:$REF_TAG
     - docker push $BASEIMAGE/$REF_BRANCH:latest
   only:
     variables:
