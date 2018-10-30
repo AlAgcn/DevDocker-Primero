@@ -14,7 +14,7 @@ variables:
   CONTAINER_RELEASE_IMAGE: $BASEIMAGE:latest
 
 before_script:
-  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
+  - docker login -u gitlab-ci-token -u $PAUSER -p $PATOKEN registry.gitlab.com
 
 build:
   stage: build
