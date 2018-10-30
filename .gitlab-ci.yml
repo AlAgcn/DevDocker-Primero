@@ -20,10 +20,10 @@ build:
   script:
     - git clone -b $REF_BRANCH --single-branch https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/thekesolutions/Dspace.git dspace-src
     - mkdir m2-repo
-    - docker build --pull -t $BASEIMAGE/$REF_BRANCH:$REF_SHA -t $BASEIMAGE/$REF_BRANCH:$REF_TAG -t $BASEIMAGE/$REF_BRANCH:latest -f Dockerfile.prod .
-    - docker push $BASEIMAGE/$REF_BRANCH:$REF_SHA
-    - docker push $BASEIMAGE/$REF_BRANCH:$REF_TAG
-    - docker push $BASEIMAGE/$REF_BRANCH:latest
+    - docker build --pull -t $BASEIMAGE/$REF_NAME:$REF_SHA -t $BASEIMAGE/$REF_NAME:$REF_TAG -t $BASEIMAGE/$REF_NAME:latest -f Dockerfile.prod .
+    - docker push $BASEIMAGE/$REF_NAME:$REF_SHA
+    - docker push $BASEIMAGE/$REF_NAME:$REF_TAG
+    - docker push $BASEIMAGE/$REF_NAME:latest
   only:
     variables:
       - $REF_BRANCH
