@@ -12,7 +12,7 @@ variables:
   BASEIMAGE: registry.gitlab.com/thekesolutions/dspace
 
 before_script:
-  - docker login -u gitlab-ci-token -u $PAUSER -p $PATOKEN registry.gitlab.com
+  - docker login -u $PAUSER -p $PATOKEN registry.gitlab.com
 
 build:
   stage: build
