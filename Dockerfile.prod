@@ -162,7 +162,8 @@ RUN rm -rf /srv/dspace/webapps/*;\
 
 FROM tomcat:8.0-alpine
 
-RUN apk add --update libreoffice imagemagick ghostscript; \
+RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.4/main' >> /etc/apk/repositories
+RUN apk add --update libreoffice imagemagick 'ghostscript=9.22-r0'; \
     rm -f /var/cache/apk/*
 
 COPY conf $CATALINA_HOME/conf
