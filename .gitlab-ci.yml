@@ -5,7 +5,6 @@ services:
 
 stages:
   - build
-  - deploy
 
 variables:
   DOCKER_HOST: tcp://docker:2375
@@ -22,16 +21,6 @@ build:
     - mkdir m2-repo
     - echo "$BASEIMAGE/$REF_NAME:$REF_SHA $BASEIMAGE/$REF_NAME:$REF_TAG $BASEIMAGE/$REF_NAME:latest"
     - docker build --pull -t $BASEIMAGE/$REF_NAME:$REF_SHA -t $BASEIMAGE/$REF_NAME:$REF_TAG -t $BASEIMAGE/$REF_NAME:latest -f Dockerfile.prod .
-    - docker push $BASEIMAGE/$REF_NAME:$REF_SHA
-    - docker push $BASEIMAGE/$REF_NAME:$REF_TAG
-    - docker push $BASEIMAGE/$REF_NAME:latest
-  only:
-    variables:
-      - $REF_BRANCH
-
-register:
-  stage: deploy
-  script: 
     - docker push $BASEIMAGE/$REF_NAME:$REF_SHA
     - docker push $BASEIMAGE/$REF_NAME:$REF_TAG
     - docker push $BASEIMAGE/$REF_NAME:latest
