@@ -126,8 +126,9 @@ ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
 USER dspace
 #Install ruby deps
-RUN curl -sSL https://rvm.io/mpapis.asc | gpg --import - \
-  && curl -sSL https://raw.githubusercontent.com/wayneeseguin/rvm/stable/binscripts/rvm-installer | bash -s stable --ruby
+#RUN curl -sSL https://rvm.io/mpapis.asc | gpg --import - \
+#  && curl -sSL https://raw.githubusercontent.com/wayneeseguin/rvm/stable/binscripts/rvm-installer | bash -s stable --ruby
+RUN curl -sSL https://get.rvm.io | bash -s stable --ruby
 
 RUN bash -c "source ~/.profile \
   && gem install sass -v 3.3.14 \
