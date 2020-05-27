@@ -149,7 +149,7 @@ RUN sudo chown -R dspace:dspace \
     /srv/dspace
 WORKDIR /srv/dspace-src
 
-
+RUN bash -c "source /home/dspace/.rvm/scripts/rvm"
 # ENV GEM_HOME=/home/dspace/.rvm/gems/ruby-2.5.1
 # ENV GEM_PATH=/home/dspace/.rvm/gems/ruby-2.5.1:/home/dspace/.rvm/gems/ruby-2.5.1@global
 # ENV PATH=$PATH:/home/dspace/.rvm/rubies/ruby-2.5.1/bin:/home/dspace/.rvm/gems/ruby-2.5.1/bin/
