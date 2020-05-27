@@ -150,9 +150,9 @@ RUN sudo chown -R dspace:dspace \
 WORKDIR /srv/dspace-src
 
 RUN bash -c "source /home/dspace/.rvm/scripts/rvm"
-# ENV GEM_HOME=/home/dspace/.rvm/gems/ruby-2.5.1
-# ENV GEM_PATH=/home/dspace/.rvm/gems/ruby-2.5.1:/home/dspace/.rvm/gems/ruby-2.5.1@global
-# ENV PATH=$PATH:/home/dspace/.rvm/rubies/ruby-2.5.1/bin:/home/dspace/.rvm/gems/ruby-2.5.1/bin/
+ENV GEM_HOME=/home/dspace/.rvm/gems/ruby-2.7.0
+ENV GEM_PATH=/home/dspace/.rvm/gems/ruby-2.7.0:/home/dspace/.rvm/gems/ruby-2.7.0@global
+ENV PATH=$PATH:/home/dspace/.rvm/rubies/ruby-2.7.0/bin:/home/dspace/.rvm/gems/ruby-2.7.0/bin/
 
 RUN whoami; pwd; ruby --version; compass --version;
 RUN bash -c "mvn -Dmirage2.on=true -Dmirage2.deps.included=false package"
