@@ -14,7 +14,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         ant \
         maven \
         unzip \
-	libreoffice
+        sudo \
+        locales \
+        bison \
+        build-essential \
+        zlib1g-dev \
+        libssl-dev \
+        libxml2-dev \
+        git-core \
+        && rm -rf /var/lib/apt/lists/*
 
 # Define commonly used JAVA_HOME variable
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
@@ -72,8 +80,6 @@ RUN mkdir /usr/lib/hotswapagent
 RUN unzip HotswapAgent.zip -d /usr/lib/hotswapagent/
 RUN rm HotswapAgent.zip
 
-RUN apt install -y sudo
-
 RUN export HOME=/home/developer
 RUN export uid=1000 gid=1000 && \
     mkdir -p /home/developer && \
@@ -97,7 +103,7 @@ RUN unzip probe.zip
 COPY conf $CATALINA_HOME/conf
 
 RUN wget https://deb.nodesource.com/setup_6.x -O -| sudo bash - \
-  && apt-get install nodejs -y
+  && apt-get install nodejs -y && rm -rf /var/lib/apt/lists/*
 
 RUN npm install -g grunt bower
 
@@ -119,7 +125,7 @@ RUN npm install -g grunt bower
 #RUN export uid=1009 && usermod -u $uid developer
 #RUN  chown -R developer:developer /home/developer
 
-RUN apt-get install -y locales && locale-gen en_US.UTF-8
+RUN locale-gen en_US.UTF-8
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
 
@@ -127,9 +133,7 @@ ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 RUN chown -R developer:developer $CATALINA_HOME/
 USER developer
 
-USER developer
 #Install ruby deps
-RUN sudo apt-get install -y bison build-essential zlib1g-dev libssl-dev libxml2-dev git-core
 RUN curl -sSL https://rvm.io/mpapis.asc | gpg --import - \
   && curl -sSL https://rvm.io/pkuczynski.asc | gpg --import - \
   && curl -sSL https://get.rvm.io | bash -s stable --ruby
@@ -139,11 +143,6 @@ RUN bash -c "source ~/.profile \
   && gem install compass -v 1.0.1"
 
 RUN echo "source ~/.profile" >> ~/.bashrc
-
-###
-# Cleanup
-###
-RUN sudo rm -rf /var/lib/apt/lists/*
 
 #Link DSpace binary
 RUN sudo ln -s /srv/dspace/bin/dspace /usr/bin/dspace
