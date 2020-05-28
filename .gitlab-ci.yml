@@ -15,20 +15,20 @@ variables:
 before_script:
   - docker login -u $PAUSER -p $PATOKEN registry.gitlab.com
 
-stage:
+dspace:
   stage: stage
   script:
-    - docker pull registry.gitlab.com/thekesolutions/dspace-dev-docker:6.3 | true
+    - docker pull registry.gitlab.com/thekesolutions/dspace-dev-docker:6.3 || true
     - docker build --cache-from registry.gitlab.com/thekesolutions/dspace-dev-docker:6.3 -t registry.gitlab.com/thekesolutions/dspace-dev-docker:$CI_COMMIT_TAG -t registry.gitlab.com/thekesolutions/dspace-dev-docker:6.3 .
     - docker push registry.gitlab.com/thekesolutions/dspace-dev-docker:6.3
     - docker push registry.gitlab.com/thekesolutions/dspace-dev-docker:$CI_COMMIT_TAG
   only:
     - tags
 
-stage:
+postgres:
   stage: stage
   script:
-    - docker pull registry.gitlab.com/thekesolutions/dspace-dev-docker/postgres:9.4 | true
+    - docker pull registry.gitlab.com/thekesolutions/dspace-dev-docker/postgres:9.4 || true
     - cd postgres
     - docker build --cache-from registry.gitlab.com/thekesolutions/dspace-dev-docker/postgres:9.4 -t registry.gitlab.com/thekesolutions/dspace-dev-docker/postgres:9.4 -t registry.gitlab.com/thekesolutions/dspace-dev-docker/postgres:9.4 .
     - docker push registry.gitlab.com/thekesolutions/dspace-dev-docker/postgres:9.4
@@ -41,7 +41,7 @@ build:
     - git clone -b $REF_BRANCH --single-branch https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/thekesolutions/Dspace.git dspace-src
     - mkdir m2-repo
     - echo "$BASEIMAGE/$REF_NAME:$REF_SHA $BASEIMAGE/$REF_NAME:$REF_TAG $BASEIMAGE/$REF_NAME:latest"
-    - docker pull $BASEIMAGE/$REF_NAME:latest 
+    - docker pull $BASEIMAGE/$REF_NAME:latest || true
     - docker build --cache-from $BASEIMAGE/$REF_NAME:latest -t $BASEIMAGE/$REF_NAME:$REF_SHA -t $BASEIMAGE/$REF_NAME:$REF_TAG -t $BASEIMAGE/$REF_NAME:latest -f Dockerfile.prod .
     - docker push $BASEIMAGE/$REF_NAME:$REF_SHA
     - docker push $BASEIMAGE/$REF_NAME:$REF_TAG
