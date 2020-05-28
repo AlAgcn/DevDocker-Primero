@@ -142,11 +142,11 @@ FROM registry.gitlab.com/thekesolutions/dspace-dev-docker:6.3 as build
 COPY conf $CATALINA_HOME/conf
 COPY dspace-src /srv/dspace-src
 COPY m2-repo /home/dspace/.m2
-RUN sudo chown -R dspace:dspace \
-    $CATALINA_HOME \
-    /srv/dspace-src \
-    /home/dspace/.m2 \
-    /srv/dspace
+# RUN sudo chown -R dspace:dspace \
+#     $CATALINA_HOME \
+#     /srv/dspace-src \
+#     /home/dspace/.m2 \
+#     /srv/dspace
 WORKDIR /srv/dspace-src
 
 # RUN bash -c "source /home/dspace/.rvm/scripts/rvm"
