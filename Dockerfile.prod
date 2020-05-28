@@ -154,7 +154,7 @@ WORKDIR /srv/dspace-src
 # ENV GEM_PATH=/home/dspace/.rvm/gems/ruby-2.7.0:/home/dspace/.rvm/gems/ruby-2.7.0@global
 # ENV PATH=$PATH:/home/dspace/.rvm/rubies/ruby-2.7.0/bin:/home/dspace/.rvm/gems/ruby-2.7.0/bin/
 
-# RUN whoami; pwd; ruby --version; compass --version;
+RUN whoami; pwd; ruby --version; compass --version;
 RUN bash -c "mvn -Dmirage2.on=true -Dmirage2.deps.included=false package"
 RUN rm -rf /srv/dspace/webapps/*;\
     ant -f /srv/dspace-src/dspace/target/dspace-installer/build.xml install_code;\
