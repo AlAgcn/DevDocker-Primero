@@ -58,11 +58,11 @@ RUN mkdir /root/.m2
 
 #Configure colors and autocompletion
 COPY bashrc /root/.bashrc
-COPY bashrc /home/developer/.bashrc
+COPY bashrc /home/dspace/.bashrc
 
 #Configure some useful aliases
 COPY bash_aliases /root/.bash_aliases
-COPY bash_aliases /home/developer/.bash_aliases
+COPY bash_aliases /home/dspace/.bash_aliases
 
 ENV DSPACE_HOME=/srv/dspace
 ENV PATH=$DSPACE_HOME/bin:$PATH
@@ -80,16 +80,16 @@ RUN mkdir /usr/lib/hotswapagent
 RUN unzip HotswapAgent.zip -d /usr/lib/hotswapagent/
 RUN rm HotswapAgent.zip
 
-RUN export HOME=/home/developer
+RUN export HOME=/home/dspace
 RUN export uid=1000 gid=1000 && \
-    mkdir -p /home/developer && \
-    echo "developer:x:${uid}:${gid}:Developer,,,:/home/developer:/bin/bash" >> /etc/passwd && \
-    echo "developer:x:${uid}:" >> /etc/group && \
-    echo "developer ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/developer && \
-    chmod 0440 /etc/sudoers.d/developer && \
-    chown ${uid}:${gid} -R /home/developer
+    mkdir -p /home/dspace && \
+    echo "dspace:x:${uid}:${gid}:DSpace,,,:/home/dspace:/bin/bash" >> /etc/passwd && \
+    echo "dspace:x:${uid}:" >> /etc/group && \
+    echo "dspace ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/dspace && \
+    chmod 0440 /etc/sudoers.d/dspace && \
+    chown ${uid}:${gid} -R /home/dspace
 
-RUN chown -R developer $CATALINA_HOME
+RUN chown -R dspace $CATALINA_HOME
 
 COPY entrypoint.sh /
 RUN chmod +x /entrypoint.sh
@@ -112,7 +112,7 @@ RUN npm install -g grunt bower
 ###
 
 #Download the IDE
-#ADD https://download.jetbrains.com/idea/ideaIC-2016.1.2.tar.gz /home/developer/idea
+#ADD https://download.jetbrains.com/idea/ideaIC-2016.1.2.tar.gz /home/dspace/idea
 
 #Required for running Idea IDE
 #RUN apt-get install libxext-dev libxrender-dev libxtst-dev -y
@@ -122,16 +122,16 @@ RUN npm install -g grunt bower
 
 
 #Uncomment this lines to set a custom UID. E.g.: 1009
-#RUN export uid=1009 && usermod -u $uid developer
-#RUN  chown -R developer:developer /home/developer
+#RUN export uid=1009 && usermod -u $uid dspace
+#RUN  chown -R dspace:dspace /home/dspace
 
 RUN locale-gen en_US.UTF-8
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
 
-#Also, give developer ownership of CATALINA_HOME
-RUN chown -R developer:developer $CATALINA_HOME/
-USER developer
+#Also, give dspace ownership of CATALINA_HOME
+RUN chown -R dspace:dspace $CATALINA_HOME/
+USER dspace
 
 #Install ruby deps
 RUN curl -sSL https://rvm.io/mpapis.asc | gpg --import - \
